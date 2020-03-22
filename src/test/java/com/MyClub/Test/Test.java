@@ -127,17 +127,4 @@ public class Test {
     }
 
 
-    @org.junit.Test
-    public void FindUserByIds(){
-        Qvo vo = new Qvo();
-        List<Integer> list = new ArrayList<>();
-        list.add(20);
-        list.add(12);
-        vo.setIds(list);
-        List<User> users = userDao.findUserByIds(vo);
-        for(User a : users){
-            System.out.println(a);
-        }
-    }
-
 }
