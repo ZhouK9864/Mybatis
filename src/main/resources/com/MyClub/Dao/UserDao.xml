@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.MyClub.Dao.UserDao">
+    <!--配置查询结果列名与实体类属性名的对应关系-->
+    <!--
+    <resultMap id="userMap" type="com.MyClub.test.User">
+        (主键字段对应)
+        <id property="..."(使用的列名）cloumn = "id"></id>
+        (非主键)
+        <result property=".." column=".."></result>
+        ...
+    </resultMap>
+    (下面所有的resultType都应该更改为resultMap）
+    -->
+
+    <!--
+    <sql id="defineUser">
+        select * from user;
+    </sql>
+    使用时：
+    <select>
+        <include refid="defineUser"></include>
+    </select>
+    抽取重复的sql语句 更便于维护 更改数据库
+    -->
+
+    <!--查询所有-->
+    <select id="findAll" resultType="com.MyClub.test.User">
+            select * from hero;
+    </select>
+    <!--最后插入-->
+    <insert id="saveData" parameterType="com.MyClub.test.User">
+        <selectKey keyProperty="id" keyColumn="id" resultType="Integer" order="AFTER">
+        select last_insert_id();
+        </selectKey>
+        insert into hero (name , hp, damage) value (#{name}, #{hp}, #{damage});
+    </insert>
+    <!--根据id更新-->
+    <update id="updateData" parameterType="com.MyClub.test.User">
+        update hero set name = #{name }, hp = #{hp}, damage = #{damage} where id = #{id}
+    </update>
+    <!--根据id删除-->
+    <delete id="deletData" parameterType="Integer">
+        delete from hero where id = #{id}
+    </delete>
+    <!--根据id查询-->
+    <select id="findById" parameterType="Integer" resultType="com.MyClub.test.User">
+        select * from hero where id = #{id}
+    </select>
+    <!--根据名字中任意个字进行模糊查询-->
+    <select id="findByName" parameterType="String" resultType="com.MyClub.test.User">
+        select * from hero where name like #{name}
+        <!-- select * from hero where name like '%${value}%' -->
+    </select>
+    <!--获取用户总记录的条数-->
+    <select id="findTotal" resultType="Integer">
+        select count(id) from hero;
+    </select>
+    <!--根据名字中任意个字进行模糊查询-->
+    <select id="findByVo" parameterType="com.MyClub.test.Qvo" resultType="com.MyClub.test.User">
+        select * from hero where name like #{user.name}
+    </select>
+    <select id="findByCondtion" resultType="com.MyClub.test.User">
+        select * from hero
+        <where>
+            <if test="name != null">
+                and name = #{name}
+            </if>
+            <if test="hp != null">
+                and hp = #{hp}  <!-- and 不要漏 -->
+            </if>
+        </where>
+    </select>
+    <select id="findUserByIds" resultType="com.MyClub.test.User" parameterType="com.MyClub.test.Qvo">
+        select * from hero
+        <where>
+            <if test="ids != null and ids.size() > 0">
+                <foreach collection="ids" open="and id in (" close=")" item="id" separator=",">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>
