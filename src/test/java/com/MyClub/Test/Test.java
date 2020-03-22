@@ -111,7 +111,7 @@ public class Test {
     }
 
     /*
-    *多id查询
+     *多id查询
      */
     @org.junit.Test
     public void FindUserByIds(){
