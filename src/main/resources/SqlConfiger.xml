@@ -15,6 +15,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="com/MyClub/Dao/UserDao.xml"/>
+        <package name="com.MyClub.Dao"/>
     </mappers>
 </configuration>

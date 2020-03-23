@@ -8,10 +8,11 @@ import org.apache.ibatis.session.*;
 import org.junit.After;
 import org.junit.Before;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Test {
+public class Test implements Serializable {
     private UserDao userDao;
     private SqlSession session;
     private InputStream in;
